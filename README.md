@@ -7,4 +7,4 @@ Main goals
 - Build an LSP for the same
 
 This is a list of feature I have implemented
-- None
+- Lexer

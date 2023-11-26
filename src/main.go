@@ -1,20 +1,7 @@
 package main
 
-import (
-	"fmt"
-	"horse-lang/src/repl"
-	"os"
-	"os/user"
-)
+import "fmt"
 
 func main() {
-	user, err := user.Current()
-
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Printf("Hello %s! This is horse lang\n", user.Username)
-	fmt.Printf("Feel free to type in commands\n")
-	repl.Start(os.Stdin, os.Stdout)
+	fmt.Println("Hello world!")
 }

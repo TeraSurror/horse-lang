@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"horse-lang/src/lexer"
 	"os"
 )
 
@@ -54,16 +55,20 @@ func runPrompt() {
 }
 
 func run(source string) {
-	fmt.Println(source)
+	scanner := lexer.New(source)
+	scanner.ScanTokens()
+	for _, token := range scanner.Tokens {
+		fmt.Printf(token.Lexeme)
+	}
 }
 
-// func reportError(line int, message string) {
-// 	report(line, "", message)
-// }
+func ReportError(line int, message string) {
+	report(line, "", message)
+}
 
-// func report(line int, where string, message string) {
-// 	fmt.Fprintf(os.Stderr, "[line: %d] Error %s: %s", line, where, message)
-// }
+func report(line int, where string, message string) {
+	fmt.Fprintf(os.Stderr, "[line: %d] Error %s: %s", line, where, message)
+}
 
 func checkError(err error) {
 	if err != nil {

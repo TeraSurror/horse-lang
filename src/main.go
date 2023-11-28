@@ -31,7 +31,6 @@ func runFile(path string) {
 
 	checkError(err)
 
-	// TODO: Create the run function
 	run(string(data))
 
 }
@@ -60,14 +59,6 @@ func run(source string) {
 	for _, token := range scanner.Tokens {
 		fmt.Printf(token.Lexeme)
 	}
-}
-
-func ReportError(line int, message string) {
-	report(line, "", message)
-}
-
-func report(line int, where string, message string) {
-	fmt.Fprintf(os.Stderr, "[line: %d] Error %s: %s", line, where, message)
 }
 
 func checkError(err error) {

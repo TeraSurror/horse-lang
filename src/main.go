@@ -57,7 +57,7 @@ func run(source string) {
 	scanner := lexer.New(source)
 	scanner.ScanTokens()
 	for _, token := range scanner.Tokens {
-		fmt.Printf(token.Lexeme)
+		fmt.Println(token.Lexeme)
 	}
 }
 

@@ -43,7 +43,7 @@ func TestNextToken(t *testing.T) {
 		{token.IDENT, "x"},
 		{token.COMMA, ","},
 		{token.IDENT, "y"},
-		{token.LPAREN, ")"},
+		{token.RPAREN, ")"},
 		{token.LBRACE, "{"},
 
 		{token.IDENT, "x"},
@@ -56,13 +56,14 @@ func TestNextToken(t *testing.T) {
 		{token.LET, "let"},
 		{token.IDENT, "result"},
 		{token.ASSIGN, "="},
-		{token.FUNCTION, "add"},
+		{token.IDENT, "add"},
 		{token.LPAREN, "("},
 		{token.IDENT, "five"},
 		{token.COMMA, ","},
 		{token.IDENT, "ten"},
-		{token.LPAREN, ")"},
+		{token.RPAREN, ")"},
 		{token.SEMICOLON, ";"},
+		{token.EOF, ""},
 	}
 
 	l := New(input)

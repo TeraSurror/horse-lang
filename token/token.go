@@ -39,3 +39,15 @@ func NewToken(tokenType TokenType, tokenLiteral byte) Token {
 		Literal: string(tokenLiteral),
 	}
 }
+
+var keywords = map[string]TokenType{
+	"fn":  FUNCTION,
+	"let": LET,
+}
+
+func LookUpIdentifier(identifier string) TokenType {
+	if tokenType, ok := keywords[identifier]; ok {
+		return tokenType
+	}
+	return IDENT
+}

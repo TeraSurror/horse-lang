@@ -7,11 +7,29 @@ import (
 	"horse-lang/token"
 )
 
+const (
+	_int = iota
+	LOWEST
+	EQUALS
+	LESSGREATER
+	SUM
+	PRODUCT
+	PREFIX
+	CALL
+)
+
+type (
+	prefixParseFunction func() ast.Expression
+	infixParseFunction  func(ast.Expression) ast.Expression
+)
+
 type Parser struct {
-	l         *lexer.Lexer
-	currToken token.Token
-	peekToken token.Token
-	errors    []string
+	l                    *lexer.Lexer
+	currToken            token.Token
+	peekToken            token.Token
+	errors               []string
+	prefixParseFunctions map[token.TokenType]prefixParseFunction
+	infixParseFunctions  map[token.TokenType]infixParseFunction
 }
 
 func New(l *lexer.Lexer) *Parser {
@@ -57,7 +75,7 @@ func (p *Parser) parseStatement() ast.Statement {
 	case token.RETURN:
 		return p.parseReturnStatement()
 	default:
-		return nil
+		return p.parseExpressionStatement()
 	}
 }
 
@@ -110,4 +128,23 @@ func (p *Parser) expectPeek(tokenType token.TokenType) bool {
 		p.peekError(tokenType)
 		return false
 	}
+}
+
+func (p *Parser) registerPrefix(tokenType token.TokenType, fn prefixParseFunction) {
+	p.prefixParseFunctions[tokenType] = fn
+}
+
+func (p *Parser) registerInfix(tokenType token.TokenType, fn infixParseFunction) {
+	p.infixParseFunctions[tokenType] = fn
+}
+
+func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
+	stmt := &ast.ExpressionStatement{Token: p.currToken}
+	stmt.Expression = p.parseExpression(LOWEST)
+
+	if p.peekTokenIs(token.SEMICOLON) {
+		p.nextToken()
+	}
+
+	return stmt
 }
